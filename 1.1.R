@@ -20,11 +20,11 @@ l <- list(color = toRGB("grey"), width = 0.5)
 
 ui <- fluidPage(
     #app title 
-    titlePanel("Geographical distribution of the COVID 19 vaccines"),
+    titlePanel("Shiny - First Interactive Visualization Example"),
     # Sidebar layout with input and output definitions ----
     sidebarLayout(
         # Sidebar panel for inputs ----
-        sidebarPanel("In the map we can see the country name presented with the amount of vaccines they have managed to distribute so far and the name of the company which produced the vaccine."
+        sidebarPanel(
         ),
         
         mainPanel(
@@ -32,3 +32,20 @@ ui <- fluidPage(
         )
     )
 )
+
+
+server <- function(input,output)({
+    
+    
+    output$plot1 <- renderPlotly({
+        worldmapplot <-plot_ly(worldmap, type='choropleth', locations=worldmap$iso_code,
+                               z=worldmap$total_vaccinations, text=worldmap.hover,color=worldmap$total_vaccinations, colorscale="Teals", marker = list(line = l))
+        
+        worldmapplot
+        
+    })
+})
+
+
+# Run the application 
+shinyApp(ui = ui, server = server)
